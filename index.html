@@ -38,9 +38,21 @@
       padding:14px 16px;
       display:flex;
       justify-content:space-between;
+      align-items:center;
       background: rgba(0,0,0,.25);
+      min-height:56px;
+      gap:10px;
     }
-    .chosen{ font-size:26px }
+    .header-left{
+      flex:1;
+      font-size:14px;
+      color:var(--text);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      opacity:.9;
+    }
+    .chosen{ font-size:26px; line-height:1; }
 
     .content{ padding:14px }
 
@@ -62,7 +74,11 @@
       font-size:28px;
       padding:10px 0;
       cursor:pointer;
+      touch-action: manipulation;
+      user-select:none;
+      transition: transform .08s ease, background .2s ease;
     }
+    .flag-btn:active{ transform: scale(.98); }
     .flag-btn.selected{
       background: rgba(122,167,255,.25);
     }
@@ -75,6 +91,8 @@
     label{
       font-size:12px;
       color:var(--muted);
+      display:block;
+      margin:0 0 6px 2px;
     }
     input{
       width:100%;
@@ -84,7 +102,9 @@
       background: rgba(255,255,255,.08);
       color:var(--text);
       font-size:15px;
+      outline:none;
     }
+    input::placeholder{ color: rgba(233,238,255,.35); }
 
     .actions{
       display:grid;
@@ -98,6 +118,8 @@
       font-size:15px;
       font-weight:600;
       cursor:pointer;
+      touch-action: manipulation;
+      user-select:none;
     }
     .btn.primary{
       background: linear-gradient(180deg, #7aa7ff, #5f86e8);
@@ -107,6 +129,7 @@
       background: rgba(255,255,255,.08);
       color:var(--text);
     }
+    .btn:disabled{ opacity:.6; cursor:not-allowed; }
 
     /* RESULT */
     .result{ display:none; padding:14px }
@@ -114,6 +137,8 @@
 
     .passport-area{
       height:48vh;
+      max-height: 430px;
+      min-height: 260px;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -127,6 +152,8 @@
 
     .check-area{
       height:34vh;
+      max-height: 320px;
+      min-height: 190px;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -139,6 +166,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
+      box-shadow: 0 18px 45px rgba(52,211,153,.18);
     }
     .check svg{
       width:64px;
@@ -146,9 +174,11 @@
       stroke:var(--good);
       stroke-width:10;
       fill:none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
-    /* LOADING */
+    /* LOADING (spinner only) */
     .loading{
       position:fixed;
       inset:0;
@@ -156,6 +186,8 @@
       display:none;
       align-items:center;
       justify-content:center;
+      z-index:999;
+      backdrop-filter: blur(6px);
     }
     .loading.active{ display:flex }
     .spinner{
@@ -172,101 +204,134 @@
 
 <body>
 
-<div class="phone" id="screenForm">
-  <header>
-    <div></div>
-    <div class="chosen" id="chosenFlag">🇪🇺</div>
-  </header>
+  <!-- FORM SCREEN -->
+  <div class="phone" id="screenForm">
+    <header>
+      <div class="header-left"></div>
+      <div class="chosen" id="chosenFlag">🇪🇺</div>
+    </header>
 
-  <div class="content">
-    <div class="card">
-      <div class="flags" id="flagsGrid"></div>
+    <div class="content">
+      <div class="card">
+        <div class="flags" id="flagsGrid"></div>
 
-      <div class="form">
-        <div>
-          <label>First name</label>
-          <input id="firstName" placeholder="Anna">
-        </div>
-        <div>
-          <label>Last name</label>
-          <input id="lastName" placeholder="Adamson">
-        </div>
+        <div class="form">
+          <div>
+            <label for="firstName">First name</label>
+            <input id="firstName" placeholder="" autocomplete="off" />
+          </div>
+          <div>
+            <label for="lastName">Last name</label>
+            <input id="lastName" placeholder="" autocomplete="off" />
+          </div>
 
-        <div class="actions">
-          <button class="btn primary" id="btnContinue">Read More</button>
-          <button class="btn secondary" id="btnReset">Reset</button>
+          <div class="actions">
+            <button class="btn primary" id="btnContinue">Continue</button>
+            <button class="btn secondary" id="btnReset">Reset</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="phone result" id="screenResult">
-  <header>
-    <div></div>
-    <div class="chosen" id="resultFlag">🇪🇺</div>
-  </header>
+  <!-- RESULT SCREEN -->
+  <div class="phone result" id="screenResult">
+    <header>
+      <div class="header-left" id="resultName"></div>
+      <div class="chosen" id="resultFlag">🇪🇺</div>
+    </header>
 
-  <div class="passport-area">
-    <img src="https://i.ibb.co/QFjPZQzR/image.png" alt="">
-  </div>
-  <div class="check-area">
-    <div class="check">
-      <svg viewBox="0 0 100 100">
-        <path d="M20 52 L42 72 L80 30"/>
-      </svg>
+    <div class="passport-area">
+      <img src="https://i.ibb.co/QFjPZQzR/image.png" alt="">
+    </div>
+    <div class="check-area">
+      <div class="check" aria-label="success">
+        <svg viewBox="0 0 100 100">
+          <path d="M20 52 L42 72 L80 30"/>
+        </svg>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="loading" id="loading">
-  <div class="spinner"></div>
-</div>
+  <!-- LOADING -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+  </div>
 
-<script>
-const EU_FLAGS = ["🇦🇹","🇧🇪","🇧🇬","🇭🇷","🇨🇿","🇩🇰","🇪🇪","🇫🇮","🇫🇷","🇩🇪","🇬🇷","🇭🇺","🇮🇹","🇱🇻","🇱🇹","🇳🇱","🇵🇱","🇵🇹","🇷🇴","🇪🇸","🇸🇪"];
+  <script>
+    const EU_FLAGS = [
+      "🇦🇹","🇧🇪","🇧🇬","🇭🇷","🇨🇾",
+      "🇨🇿","🇩🇰","🇪🇪","🇫🇮","🇫🇷",
+      "🇩🇪","🇬🇷","🇭🇺","🇮🇪","🇮🇹",
+      "🇱🇻","🇱🇹","🇱🇺","🇲🇹","🇳🇱",
+      "🇵🇱","🇵🇹","🇷🇴","🇸🇰","🇸🇮",
+      "🇪🇸","🇸🇪","🇨🇭","🇳🇴","🇬🇧"
+    ];
 
-const flagsGrid = document.getElementById("flagsGrid");
-const chosenFlag = document.getElementById("chosenFlag");
-const resultFlag = document.getElementById("resultFlag");
-const loading = document.getElementById("loading");
+    const flagsGrid = document.getElementById("flagsGrid");
+    const chosenFlag = document.getElementById("chosenFlag");
+    const resultFlag = document.getElementById("resultFlag");
+    const resultName = document.getElementById("resultName");
+    const loading = document.getElementById("loading");
 
-let selected = EU_FLAGS[0];
+    const screenForm = document.getElementById("screenForm");
+    const screenResult = document.getElementById("screenResult");
 
-function renderFlags(){
-  flagsGrid.innerHTML="";
-  EU_FLAGS.forEach(f=>{
-    const b=document.createElement("button");
-    b.className="flag-btn"+(f===selected?" selected":"");
-    b.textContent=f;
-    b.onclick=()=>{
-      selected=f;
-      chosenFlag.textContent=f;
-      renderFlags();
-    };
-    flagsGrid.appendChild(b);
-  });
-}
-renderFlags();
+    const firstName = document.getElementById("firstName");
+    const lastName = document.getElementById("lastName");
 
-document.getElementById("btnContinue").onclick=async()=>{
-  firstName.value="Anna";
-  lastName.value="Adamson";
+    const btnContinue = document.getElementById("btnContinue");
+    const btnReset = document.getElementById("btnReset");
 
-  loading.classList.add("active");
-  await new Promise(r=>setTimeout(r,2000));
-  loading.classList.remove("active");
+    let selected = EU_FLAGS[0];
 
-  document.getElementById("screenForm").style.display="none";
-  document.getElementById("screenResult").classList.add("active");
-  resultFlag.textContent=selected;
-};
+    function renderFlags(){
+      flagsGrid.innerHTML = "";
+      EU_FLAGS.forEach(f => {
+        const b = document.createElement("button");
+        b.className = "flag-btn" + (f === selected ? " selected" : "");
+        b.type = "button";
+        b.textContent = f;
+        b.addEventListener("click", () => {
+          selected = f;
+          chosenFlag.textContent = f;
+          renderFlags();
+          if (navigator.vibrate) navigator.vibrate(20);
+        });
+        flagsGrid.appendChild(b);
+      });
+      chosenFlag.textContent = selected;
+    }
 
-document.getElementById("btnReset").onclick=()=>{
-  firstName.value="";
-  lastName.value="";
-};
-</script>
+    renderFlags();
+
+    btnContinue.addEventListener("click", async () => {
+      // keep fields as entered (no auto-fill)
+      const fn = (firstName.value || "").trim();
+      const ln = (lastName.value || "").trim();
+      const full = (fn + " " + ln).trim();
+
+      btnContinue.disabled = true;
+      btnReset.disabled = true;
+
+      loading.classList.add("active");
+      await new Promise(r => setTimeout(r, 2500)); // longer loading
+      loading.classList.remove("active");
+
+      resultFlag.textContent = selected;
+      resultName.textContent = full;
+
+      screenForm.style.display = "none";
+      screenResult.classList.add("active");
+    });
+
+    btnReset.addEventListener("click", () => {
+      firstName.value = "";
+      lastName.value = "";
+      btnContinue.disabled = false;
+      btnReset.disabled = false;
+    });
+  </script>
 
 </body>
 </html>
