@@ -1,337 +1,358 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mobile Flow</title>
-  <style>
-    :root{
-      --bg:#0b1020;
-      --card:#121a33;
-      --text:#e9eeff;
-      --muted:#a9b3d6;
-      --accent:#7aa7ff;
-      --good:#34d399;
-      --shadow: 0 18px 50px rgba(0,0,0,.35);
-      --radius: 18px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: var(--bg);
-      color:var(--text);
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:16px;
-    }
-    .phone{
-      width:min(420px, 100%);
-      background: rgba(255,255,255,.04);
-      border-radius: 26px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    header{
-      padding:14px 16px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      background: rgba(0,0,0,.25);
-      min-height:56px;
-      gap:10px;
-    }
-    .header-left{
-      flex:1;
-      font-size:14px;
-      color:var(--text);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      opacity:.9;
-    }
-    .chosen{ font-size:26px; line-height:1; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vibrant UI Fixed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+            --glass: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --text-white: #ffffff;
+            --accent-green: #00ff88;
+        }
 
-    .content{ padding:14px }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    .card{
-      background: rgba(18,26,51,.7);
-      border-radius: var(--radius);
-      padding:14px;
-    }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: fixed; 
+            width: 100%;
+        }
 
-    .flags{
-      display:grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap:10px;
-    }
-    .flag-btn{
-      border:none;
-      background: rgba(255,255,255,.08);
-      border-radius:14px;
-      font-size:28px;
-      padding:10px 0;
-      cursor:pointer;
-      touch-action: manipulation;
-      user-select:none;
-      transition: transform .08s ease, background .2s ease;
-    }
-    .flag-btn:active{ transform: scale(.98); }
-    .flag-btn.selected{
-      background: rgba(122,167,255,.25);
-    }
+        .bg-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            filter: blur(100px);
+            border-radius: 50%;
+            z-index: 0;
+            animation: move 20s infinite alternate;
+        }
 
-    .form{
-      margin-top:14px;
-      display:grid;
-      gap:10px;
-    }
-    label{
-      font-size:12px;
-      color:var(--muted);
-      display:block;
-      margin:0 0 6px 2px;
-    }
-    input{
-      width:100%;
-      padding:12px;
-      border-radius:14px;
-      border:none;
-      background: rgba(255,255,255,.08);
-      color:var(--text);
-      font-size:15px;
-      outline:none;
-    }
-    input::placeholder{ color: rgba(233,238,255,.35); }
+        @keyframes move {
+            from { transform: translate(-30%, -30%); }
+            to { transform: translate(30%, 30%); }
+        }
 
-    .actions{
-      display:grid;
-      gap:10px;
-      margin-top:10px;
-    }
-    .btn{
-      padding:12px;
-      border-radius:16px;
-      border:none;
-      font-size:15px;
-      font-weight:600;
-      cursor:pointer;
-      touch-action: manipulation;
-      user-select:none;
-    }
-    .btn.primary{
-      background: linear-gradient(180deg, #7aa7ff, #5f86e8);
-      color:#0b1020;
-    }
-    .btn.secondary{
-      background: rgba(255,255,255,.08);
-      color:var(--text);
-    }
-    .btn:disabled{ opacity:.6; cursor:not-allowed; }
+        .glass-card {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 360px;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 35px;
+            padding: 40px 24px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
 
-    /* RESULT */
-    .result{ display:none; padding:14px }
-    .result.active{ display:block }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-white);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
 
-    .passport-area{
-      height:48vh;
-      max-height: 430px;
-      min-height: 260px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: rgba(0,0,0,.25);
-    }
-    .passport-area img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-    }
+        .header p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+        }
 
-    .check-area{
-      height:34vh;
-      max-height: 320px;
-      min-height: 190px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .check{
-      width:120px;
-      height:120px;
-      border-radius:50%;
-      background: rgba(52,211,153,.2);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow: 0 18px 45px rgba(52,211,153,.18);
-    }
-    .check svg{
-      width:64px;
-      height:64px;
-      stroke:var(--good);
-      stroke-width:10;
-      fill:none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
+        .input-wrapper { 
+            margin-bottom: 16px; 
+            position: relative; 
+            width: 100%;
+        }
 
-    /* LOADING (spinner only) */
-    .loading{
-      position:fixed;
-      inset:0;
-      background: rgba(0,0,0,.6);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:999;
-      backdrop-filter: blur(6px);
-    }
-    .loading.active{ display:flex }
-    .spinner{
-      width:48px;
-      height:48px;
-      border-radius:50%;
-      border:4px solid rgba(255,255,255,.2);
-      border-top-color:#7aa7ff;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin{ to{transform:rotate(360deg)} }
-  </style>
+        input, .select-box {
+            width: 100%;
+            height: 60px;
+            padding: 0 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            font-size: 16px;
+            color: white;
+            outline: none;
+            transition: 0.3s ease;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        input::placeholder { color: rgba(255, 255, 255, 0.5); }
+
+        input:focus, .select-box.active-border {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Исправленный Select */
+        .select-wrapper { 
+            position: relative; 
+            cursor: pointer; 
+            z-index: 50; 
+        }
+
+        .select-box span {
+            pointer-events: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .select-box svg {
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        .select-box.active-border svg {
+            transform: rotate(180deg);
+        }
+
+        .options-menu {
+            position: absolute;
+            top: calc(100% + 8px); 
+            left: 0; 
+            right: 0;
+            background: rgba(30, 30, 40, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 8px;
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .options-menu.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+            pointer-events: all; 
+        }
+
+        .option {
+            padding: 14px 16px;
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .option:hover { background: rgba(255,255,255,0.15); }
+
+        /* Кнопка */
+        .btn-confirm {
+            width: 100%;
+            height: 64px;
+            background: #ffffff;
+            border: none;
+            border-radius: 20px;
+            margin-top: 15px;
+            cursor: pointer;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-confirm svg { stroke: #784BA0; }
+        .btn-confirm:active { transform: scale(0.94); }
+
+        /* Успех */
+        #success-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(40px) saturate(160%);
+            -webkit-backdrop-filter: blur(40px) saturate(160%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.8s ease;
+        }
+
+        #success-screen.show { visibility: visible; opacity: 1; }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 60px rgba(0, 255, 136, 0.5);
+            transform: scale(0.4);
+            transition: 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        #success-screen.show .success-icon { transform: scale(1); }
+
+        /* Конфетти */
+        #confetti-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 200;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 2px;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(720deg); }
+        }
+    </style>
 </head>
-
 <body>
 
-  <!-- FORM SCREEN -->
-  <div class="phone" id="screenForm">
-    <header>
-      <div class="header-left"></div>
-      <div class="chosen" id="chosenFlag">🇪🇺</div>
-    </header>
+    <div class="bg-glow"></div>
 
-    <div class="content">
-      <div class="card">
-        <div class="flags" id="flagsGrid"></div>
-
-        <div class="form">
-          <div>
-            <label for="firstName">First name</label>
-            <input id="firstName" placeholder="" autocomplete="off" />
-          </div>
-          <div>
-            <label for="lastName">Last name</label>
-            <input id="lastName" placeholder="" autocomplete="off" />
-          </div>
-
-          <div class="actions">
-            <button class="btn primary" id="btnContinue">Continue</button>
-            <button class="btn secondary" id="btnReset">Reset</button>
-          </div>
+    <div class="glass-card" id="mainCard">
+        <div class="header">
+            <h1>Create Account</h1>
+            <p>Enter details to get started</p>
         </div>
-      </div>
+
+        <div class="input-wrapper">
+            <input type="text" placeholder="Full Name">
+        </div>
+
+        <div class="input-wrapper">
+            <input type="email" placeholder="Email Address">
+        </div>
+
+        <div class="input-wrapper select-wrapper">
+            <div class="select-box" id="selectBtn">
+                <span id="selectedText">Choose Category</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+            <div class="options-menu" id="optionsMenu">
+                <div class="option">Clothing</div>
+                <div class="option">Sweets</div>
+                <div class="option">Bikes</div>
+                <div class="option">Phones</div>
+            </div>
+        </div>
+
+        <button class="btn-confirm" id="submitBtn">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </button>
     </div>
-  </div>
 
-  <!-- RESULT SCREEN -->
-  <div class="phone result" id="screenResult">
-    <header>
-      <div class="header-left" id="resultName"></div>
-      <div class="chosen" id="resultFlag">🇪🇺</div>
-    </header>
-
-    <div class="passport-area">
-      <img src="https://i.ibb.co/QFjPZQzR/image.png" alt="">
+    <div id="success-screen">
+        <div class="success-icon">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
     </div>
-    <div class="check-area">
-      <div class="check" aria-label="success">
-        <svg viewBox="0 0 100 100">
-          <path d="M20 52 L42 72 L80 30"/>
-        </svg>
-      </div>
-    </div>
-  </div>
 
-  <!-- LOADING -->
-  <div class="loading" id="loading">
-    <div class="spinner"></div>
-  </div>
+    <div id="confetti-container"></div>
 
-  <script>
-    const EU_FLAGS = [
-      "🇦🇹","🇧🇪","🇧🇬","🇭🇷","🇨🇾",
-      "🇨🇿","🇩🇰","🇪🇪","🇫🇮","🇫🇷",
-      "🇩🇪","🇬🇷","🇭🇺","🇮🇪","🇮🇹",
-      "🇱🇻","🇱🇹","🇱🇺","🇲🇹","🇳🇱",
-      "🇵🇱","🇵🇹","🇷🇴","🇸🇰","🇸🇮",
-      "🇪🇸","🇸🇪","🇨🇭","🇳🇴","🇬🇧"
-    ];
+    <script>
+        const selectBtn = document.getElementById('selectBtn');
+        const optionsMenu = document.getElementById('optionsMenu');
+        const options = document.querySelectorAll('.option');
+        const selectedText = document.getElementById('selectedText');
+        const submitBtn = document.getElementById('submitBtn');
+        const successScreen = document.getElementById('success-screen');
+        const mainCard = document.getElementById('mainCard');
+        const confettiContainer = document.getElementById('confetti-container');
 
-    const flagsGrid = document.getElementById("flagsGrid");
-    const chosenFlag = document.getElementById("chosenFlag");
-    const resultFlag = document.getElementById("resultFlag");
-    const resultName = document.getElementById("resultName");
-    const loading = document.getElementById("loading");
-
-    const screenForm = document.getElementById("screenForm");
-    const screenResult = document.getElementById("screenResult");
-
-    const firstName = document.getElementById("firstName");
-    const lastName = document.getElementById("lastName");
-
-    const btnContinue = document.getElementById("btnContinue");
-    const btnReset = document.getElementById("btnReset");
-
-    let selected = EU_FLAGS[0];
-
-    function renderFlags(){
-      flagsGrid.innerHTML = "";
-      EU_FLAGS.forEach(f => {
-        const b = document.createElement("button");
-        b.className = "flag-btn" + (f === selected ? " selected" : "");
-        b.type = "button";
-        b.textContent = f;
-        b.addEventListener("click", () => {
-          selected = f;
-          chosenFlag.textContent = f;
-          renderFlags();
-          if (navigator.vibrate) navigator.vibrate(20);
+        // Исправленная логика селекта
+        selectBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isActive = optionsMenu.classList.toggle('active');
+            selectBtn.classList.toggle('active-border', isActive);
         });
-        flagsGrid.appendChild(b);
-      });
-      chosenFlag.textContent = selected;
-    }
 
-    renderFlags();
+        options.forEach(opt => {
+            opt.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selectedText.innerText = opt.innerText;
+                selectedText.style.color = "white";
+                optionsMenu.classList.remove('active');
+                selectBtn.classList.remove('active-border');
+            });
+        });
 
-    btnContinue.addEventListener("click", async () => {
-      // keep fields as entered (no auto-fill)
-      const fn = (firstName.value || "").trim();
-      const ln = (lastName.value || "").trim();
-      const full = (fn + " " + ln).trim();
+        window.onclick = () => { 
+            optionsMenu.classList.remove('active'); 
+            selectBtn.classList.remove('active-border');
+        };
 
-      btnContinue.disabled = true;
-      btnReset.disabled = true;
+        // Бесконечные конфетти
+        function createParticle() {
+            const colors = ['#00ff88', '#ffffff', '#ff0077', '#00d4ff', '#ffff00', '#ff9500'];
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 10 + 6 + 'px';
+            p.style.width = size;
+            p.style.height = (Math.random() > 0.5 ? size : '4px'); // Разные формы
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = '-20px';
+            p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            const duration = Math.random() * 2.5 + 2;
+            p.style.animationDuration = duration + 's';
+            
+            confettiContainer.appendChild(p);
+            setTimeout(() => p.remove(), duration * 1000);
+        }
 
-      loading.classList.add("active");
-      await new Promise(r => setTimeout(r, 2500)); // longer loading
-      loading.classList.remove("active");
+        // Финальное действие
+        submitBtn.addEventListener('click', () => {
+            successScreen.classList.add('show');
+            mainCard.style.transform = 'scale(0.8) translateY(30px)';
+            mainCard.style.opacity = '0';
+            mainCard.style.pointerEvents = 'none';
 
-      resultFlag.textContent = selected;
-      resultName.textContent = full;
-
-      screenForm.style.display = "none";
-      screenResult.classList.add("active");
-    });
-
-    btnReset.addEventListener("click", () => {
-      firstName.value = "";
-      lastName.value = "";
-      btnContinue.disabled = false;
-      btnReset.disabled = false;
-    });
-  </script>
-
+            // Непрерывный поток
+            setInterval(createParticle, 60);
+            
+            // Мощный залп в начале
+            for(let i=0; i<50; i++) {
+                setTimeout(createParticle, Math.random() * 800);
+            }
+        });
+    </script>
 </body>
 </html>
