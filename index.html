@@ -3,356 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Vibrant UI Fixed</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <title>Premium Bank</title>
     <style>
         :root {
-            --bg-gradient: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
-            --glass: rgba(255, 255, 255, 0.12);
-            --glass-border: rgba(255, 255, 255, 0.25);
-            --text-white: #ffffff;
-            --accent-green: #00ff88;
+            --bg: #f8f9fb;
+            --white: #ffffff;
+            --black: #000000;
+            --gray: #8e8e93;
+            --blue: #007aff;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--black);
+            overflow-x: hidden;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Top Header */
+        header {
+            padding: 40px 24px 20px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            overflow: hidden;
-            position: fixed; 
-            width: 100%;
         }
 
-        .bg-glow {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: rgba(255, 255, 255, 0.1);
-            filter: blur(100px);
-            border-radius: 50%;
-            z-index: 0;
-            animation: move 20s infinite alternate;
+        .user-info p {
+            font-size: 16px;
+            color: var(--gray);
+            font-weight: 500;
         }
 
-        @keyframes move {
-            from { transform: translate(-30%, -30%); }
-            to { transform: translate(30%, 30%); }
-        }
-
-        .glass-card {
-            position: relative;
-            z-index: 10;
-            width: 90%;
-            max-width: 360px;
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            border-radius: 35px;
-            padding: 40px 24px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        .header h1 {
+        .user-info h1 {
             font-size: 28px;
             font-weight: 800;
-            color: var(--text-white);
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            margin-top: 4px;
         }
 
-        .header p {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 30px;
-        }
-
-        .input-wrapper { 
-            margin-bottom: 16px; 
-            position: relative; 
-            width: 100%;
-        }
-
-        input, .select-box {
-            width: 100%;
-            height: 60px;
-            padding: 0 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--glass-border);
-            border-radius: 18px;
-            font-size: 16px;
-            color: white;
-            outline: none;
-            transition: 0.3s ease;
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        input::placeholder { color: rgba(255, 255, 255, 0.5); }
-
-        input:focus, .select-box.active-border {
-            background: rgba(255, 255, 255, 0.18);
-            border-color: rgba(255, 255, 255, 0.8);
-        }
-
-        /* Исправленный Select */
-        .select-wrapper { 
-            position: relative; 
-            cursor: pointer; 
-            z-index: 50; 
-        }
-
-        .select-box span {
-            pointer-events: none;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .select-box svg {
-            transition: transform 0.3s ease;
-            flex-shrink: 0;
-            margin-left: 10px;
-        }
-
-        .select-box.active-border svg {
-            transform: rotate(180deg);
-        }
-
-        .options-menu {
-            position: absolute;
-            top: calc(100% + 8px); 
-            left: 0; 
-            right: 0;
-            background: rgba(30, 30, 40, 0.95);
-            backdrop-filter: blur(15px);
-            border-radius: 18px;
-            padding: 8px;
-            opacity: 0;
-            transform: translateY(-10px);
-            pointer-events: none;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-        }
-
-        .options-menu.active { 
-            opacity: 1; 
-            transform: translateY(0); 
-            pointer-events: all; 
-        }
-
-        .option {
-            padding: 14px 16px;
-            border-radius: 12px;
-            color: white;
-            font-size: 15px;
-            font-weight: 500;
-            transition: 0.2s;
-        }
-        .option:hover { background: rgba(255,255,255,0.15); }
-
-        /* Кнопка */
-        .btn-confirm {
-            width: 100%;
-            height: 64px;
-            background: #ffffff;
-            border: none;
-            border-radius: 20px;
-            margin-top: 15px;
-            cursor: pointer;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .btn-confirm svg { stroke: #784BA0; }
-        .btn-confirm:active { transform: scale(0.94); }
-
-        /* Успех */
-        #success-screen {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(40px) saturate(160%);
-            -webkit-backdrop-filter: blur(40px) saturate(160%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            visibility: hidden;
-            opacity: 0;
-            transition: 0.8s ease;
-        }
-
-        #success-screen.show { visibility: visible; opacity: 1; }
-
-        .success-icon {
-            width: 120px;
-            height: 120px;
-            background: var(--accent-green);
+        .notif-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--white);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 60px rgba(0, 255, 136, 0.5);
-            transform: scale(0.4);
-            transition: 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
-        #success-screen.show .success-icon { transform: scale(1); }
+        /* Card Section */
+        .card-container {
+            padding: 0 20px;
+            perspective: 1000px;
+        }
 
-        /* Конфетти */
-        #confetti-container {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 200;
+        .bank-card {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1.58 / 1;
+            border-radius: 28px;
             overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            background: #2a52ff; /* fallback */
         }
 
-        .particle {
+        .bank-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* THE BALANCE - Strictly Left Aligned */
+        .card-balance {
             position: absolute;
-            border-radius: 2px;
-            animation: fall linear forwards;
+            top: 42%;
+            left: 8.5%; /* This aligns with the 'M' in Martines on your design */
+            color: var(--white);
+            font-size: 48px; /* Extra large */
+            font-weight: 700;
+            letter-spacing: -1.5px;
         }
 
-        @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); }
-            100% { transform: translateY(110vh) rotate(720deg); }
+        /* Slider Area */
+        .slider-section {
+            margin: 60px 24px 40px;
+            position: relative;
         }
+
+        .bubble {
+            position: absolute;
+            top: -50px;
+            background: var(--black);
+            color: var(--white);
+            padding: 6px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+        .bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid var(--black);
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 12px;
+            background: #e5e5ea;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 36px;
+            height: 36px;
+            background: var(--black);
+            border-radius: 50%;
+            border: 4px solid var(--white);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        /* Quick Actions - Real Buttons */
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            padding: 0 24px;
+            margin-bottom: 40px;
+        }
+
+        .action-item {
+            text-align: center;
+        }
+
+        .icon-box {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: var(--white);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+        }
+
+        .action-item span {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        /* Transactions */
+        .transactions {
+            background: var(--white);
+            border-top-left-radius: 35px;
+            border-top-right-radius: 35px;
+            padding: 30px 24px 120px;
+            flex-grow: 1;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.03);
+        }
+
+        .tr-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .tr-header h2 { font-size: 22px; font-weight: 800; }
+        .tr-header a { color: var(--blue); text-decoration: none; font-weight: 600; }
+
+        .tr-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .tr-icon {
+            width: 56px;
+            height: 56px;
+            background: #f2f2f7;
+            border-radius: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 16px;
+        }
+
+        .tr-info { flex: 1; }
+        .tr-info h4 { font-size: 18px; font-weight: 700; }
+        .tr-info p { color: var(--gray); font-size: 14px; margin-top: 2px; }
+
+        .tr-amount { font-size: 18px; font-weight: 800; }
+
+        /* Bottom Nav */
+        nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 95px;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            padding-top: 15px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .nav-link { color: #c7c7cc; font-size: 28px; }
+        .nav-link.active { color: var(--black); }
+
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
-
-    <div class="glass-card" id="mainCard">
-        <div class="header">
-            <h1>Create Account</h1>
-            <p>Enter details to get started</p>
+    <header>
+        <div class="user-info">
+            <p>Good morning,</p>
+            <h1>Martines</h1>
         </div>
-
-        <div class="input-wrapper">
-            <input type="text" placeholder="Full Name">
+        <div class="notif-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
         </div>
+    </header>
 
-        <div class="input-wrapper">
-            <input type="email" placeholder="Email Address">
-        </div>
-
-        <div class="input-wrapper select-wrapper">
-            <div class="select-box" id="selectBtn">
-                <span id="selectedText">Choose Category</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-            </div>
-            <div class="options-menu" id="optionsMenu">
-                <div class="option">Clothing</div>
-                <div class="option">Sweets</div>
-                <div class="option">Bikes</div>
-                <div class="option">Phones</div>
-            </div>
-        </div>
-
-        <button class="btn-confirm" id="submitBtn">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
-        </button>
-    </div>
-
-    <div id="success-screen">
-        <div class="success-icon">
-            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
+    <div class="card-container">
+        <div class="bank-card">
+            <img src="https://i.ibb.co/jPd6JL1Y/Design.png" alt="Card">
+            <div class="card-balance" id="cardVal">0</div>
         </div>
     </div>
 
-    <div id="confetti-container"></div>
+    <div class="slider-section">
+        <div class="bubble" id="bubble">0</div>
+        <input type="range" id="mainSlider" min="0" max="39840" value="23898">
+    </div>
+
+    <div class="actions">
+        <div class="action-item">
+            <div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></div>
+            <span>Send</span>
+        </div>
+        <div class="action-item">
+            <div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg></div>
+            <span>Request</span>
+        </div>
+        <div class="action-item">
+            <div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg></div>
+            <span>Cards</span>
+        </div>
+        <div class="action-item">
+            <div class="icon-box"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg></div>
+            <span>Limits</span>
+        </div>
+    </div>
+
+    <div class="transactions">
+        <div class="tr-header">
+            <h2>Transactions</h2>
+            <a href="#">See all</a>
+        </div>
+
+        <div class="tr-row">
+            <div class="tr-icon">🍎</div>
+            <div class="tr-info">
+                <h4>Apple Store</h4>
+                <p>Electronics • 11:45 AM</p>
+            </div>
+            <div class="tr-amount">- 999</div>
+        </div>
+
+        <div class="tr-row">
+            <div class="tr-icon">☕</div>
+            <div class="tr-info">
+                <h4>Starbucks</h4>
+                <p>Food & Drink • 09:20 AM</p>
+            </div>
+            <div class="tr-amount">- 12</div>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav-link active">🏠</div>
+        <div class="nav-link">💳</div>
+        <div class="nav-link">⚙️</div>
+        <div class="nav-link">👤</div>
+    </nav>
 
     <script>
-        const selectBtn = document.getElementById('selectBtn');
-        const optionsMenu = document.getElementById('optionsMenu');
-        const options = document.querySelectorAll('.option');
-        const selectedText = document.getElementById('selectedText');
-        const submitBtn = document.getElementById('submitBtn');
-        const successScreen = document.getElementById('success-screen');
-        const mainCard = document.getElementById('mainCard');
-        const confettiContainer = document.getElementById('confetti-container');
+        const slider = document.getElementById('mainSlider');
+        const bubble = document.getElementById('bubble');
+        const cardVal = document.getElementById('cardVal');
 
-        // Исправленная логика селекта
-        selectBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isActive = optionsMenu.classList.toggle('active');
-            selectBtn.classList.toggle('active-border', isActive);
-        });
-
-        options.forEach(opt => {
-            opt.addEventListener('click', (e) => {
-                e.stopPropagation();
-                selectedText.innerText = opt.innerText;
-                selectedText.style.color = "white";
-                optionsMenu.classList.remove('active');
-                selectBtn.classList.remove('active-border');
-            });
-        });
-
-        window.onclick = () => { 
-            optionsMenu.classList.remove('active'); 
-            selectBtn.classList.remove('active-border');
-        };
-
-        // Бесконечные конфетти
-        function createParticle() {
-            const colors = ['#00ff88', '#ffffff', '#ff0077', '#00d4ff', '#ffff00', '#ff9500'];
-            const p = document.createElement('div');
-            p.className = 'particle';
-            const size = Math.random() * 10 + 6 + 'px';
-            p.style.width = size;
-            p.style.height = (Math.random() > 0.5 ? size : '4px'); // Разные формы
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.top = '-20px';
-            p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        function update() {
+            const val = slider.value;
+            const formatted = Number(val).toLocaleString('fr-FR');
             
-            const duration = Math.random() * 2.5 + 2;
-            p.style.animationDuration = duration + 's';
-            
-            confettiContainer.appendChild(p);
-            setTimeout(() => p.remove(), duration * 1000);
+            bubble.textContent = formatted;
+            cardVal.textContent = formatted;
+
+            const percent = ((val - slider.min) / (slider.max - slider.min)) * 100;
+            // Precise bubble positioning logic
+            bubble.style.left = `calc(${percent}% + (${18 - percent * 0.36}px))`;
         }
 
-        // Финальное действие
-        submitBtn.addEventListener('click', () => {
-            successScreen.classList.add('show');
-            mainCard.style.transform = 'scale(0.8) translateY(30px)';
-            mainCard.style.opacity = '0';
-            mainCard.style.pointerEvents = 'none';
-
-            // Непрерывный поток
-            setInterval(createParticle, 60);
-            
-            // Мощный залп в начале
-            for(let i=0; i<50; i++) {
-                setTimeout(createParticle, Math.random() * 800);
-            }
-        });
+        slider.addEventListener('input', update);
+        window.onload = update;
     </script>
 </body>
 </html>
